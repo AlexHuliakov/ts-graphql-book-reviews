@@ -52,6 +52,8 @@ export default `
     
     type Mutation {
         createUser(data: CreateUserInput): User!
+        deleteUser(id: ID!): User!
+        deletePost(id: ID!): Post!
         createPost(data: CreatePostInput): Post!
         createComment(data: CreateCommentInput): Comment!
     }

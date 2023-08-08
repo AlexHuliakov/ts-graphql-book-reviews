@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { createServer } from 'node:http'
 import typeDefs from './type-def';
 
-const users = [{
+let users = [{
     id: '1',
     name: 'Mike',
     email: 'test',
@@ -20,7 +20,7 @@ const users = [{
     age: 28
 }];
 
-const posts = [{
+let posts = [{
     id: '1',
     title: 'title1',
     body: 'body1',
@@ -40,7 +40,7 @@ const posts = [{
     author: '3'
 }];
 
-const comments = [{
+let comments = [{
     id: '1',
     text: 'comment1',
     post: '1',
@@ -151,6 +151,52 @@ const resolvers = {
             
             users.push(user);
             return user;
+        },
+        deleteUser(parent, args, ctx, info) {
+            const userIndex = users.findIndex((user) => {
+                return user.id === args.id;
+            });
+            
+            if (userIndex === -1) {
+                throw new Error('User not found.');
+            }
+            
+            const deletedUsers = users.splice(userIndex, 1);
+            
+            posts = posts.filter((post) => {
+                const match = post.author === args.id;
+                
+                if (match) {
+                    comments = comments.filter((comment) => {
+                        return comment.post !== post.id;
+                    });
+                }
+                
+                return !match;
+            });
+            
+            comments = comments.filter((comment) => {
+                return comment.author !== args.id;
+            });
+            
+            return deletedUsers[0];  
+        },
+        deletePost(parent, args, ctx, info) {
+            const postIndex = posts.findIndex((post) => {
+                return post.id === args.id;
+            });
+            
+            if (postIndex === -1) {
+                throw new Error('Post not found.');
+            }
+            
+            const deletedPosts = posts.splice(postIndex, 1);
+            
+            comments = comments.filter((comment) => {
+                return comment.post !== args.id;
+            });
+            
+            return deletedPosts[0];  
         },
         createPost(parent, args, ctx, info) {
             const userExists = users.some((user) => {
