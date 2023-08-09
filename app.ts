@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { createServer } from 'node:http'
@@ -18,13 +21,13 @@ const pubSub = createPubSub();
   
 const yoga = createYoga({
     schema: createSchema({ typeDefs: readFileSync(join(__dirname, 'schema.graphql'), 'utf-8'), resolvers }),
-    context() {
-        return { db, pubSub } as any;
+    context(req) {
+        return { db, pubSub, req } as any;
     }
 })
 
 const server = createServer(yoga);
 
-server.listen(4000, () => {
-    console.log('Server is running on http://localhost:4000')
+server.listen(process.env.APP_PORT, () => {
+    console.log(`Server is running on http://localhost:${process.env.APP_PORT}`)
 });

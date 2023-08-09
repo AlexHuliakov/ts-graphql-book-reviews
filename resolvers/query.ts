@@ -3,8 +3,7 @@ import getUserId from "../util/get-user-id";
 
 export const Query = {
     profile(parent, args, { db, req }, info): User {
-        console.log();
-        const userId = getUserId(req);
+        const userId = getUserId({ req });
         
         return db.user.findUnique({
             where: {

@@ -1,18 +1,45 @@
 type Query {
+  profile: User
     users(query: String): [User!]!
 }
 
 input CreateUserInput {
     name: String!
     email: String!
+    password: String!
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
+    reviews: [Review!]!
+}
+
+type Review {
+  id: Int!
+  text: String!
+  rating: Int!
+  author: User!
+  book: Book!
+}
+
+type Book {
+  id: Int!
+  title: String!
+  author: String!
+  isbn: String!
+  reviews: [Review!]!
+}
+
+type loginResponse {
+  user: User!
+  token: String!
 }
 
 type Mutation {
     createUser(data: CreateUserInput): User!
+    login(email: String!, password: String!): loginResponse!
+    createReview(text: String!, rating: Int!, bookId: Int!): Review!
+    createBook(title: String!, author: String!, isbn: String!): Book!
 }
