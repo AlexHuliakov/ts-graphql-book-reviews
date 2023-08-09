@@ -1,78 +1,18 @@
 type Query {
-    me: User!
-    posts(quert: String): [Post!]!
     users(query: String): [User!]!
-    comments: [Comment!]!
 }
 
 input CreateUserInput {
     name: String!
     email: String!
-    age: Int
-}
-
-input UpdateUserInput {
-    name: String
-    email: String
-    age: Int
-}
-
-input CreatePostInput {
-    title: String!
-    body: String!
-    published: Boolean!
-    author: ID!
-}
-
-input UpdatePostInput {
-    title: String
-    body: String
-    published: Boolean
-}
-
-input CreateCommentInput {
-    text: String!
-    post: ID!
-    author: ID!
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
-    age: Int
-    posts: [Post!]!
-    comments: [Comment!]! 
-}
-
-type Post {
-    id: ID!
-    title: String!
-    body: String!
-    published: Boolean!
-    author: User!
-    comments: [Comment!]!
-}
-
-type Comment {
-    id: ID!
-    text: String!
-    post: Post!
-    author: User!
 }
 
 type Mutation {
     createUser(data: CreateUserInput): User!
-    deleteUser(id: ID!): User!
-    updateUser(id: ID!, data: UpdateUserInput!): User!
-    deletePost(id: ID!): Post!
-    createPost(data: CreatePostInput): Post!
-    updatePost(id: ID!, data: UpdatePostInput!): Post!
-    createComment(data: CreateCommentInput): Comment!
-}
-
-type  Subscription {
-    count(from: Int!): Int!
-    comment(postId: ID!): Comment!
-    post: Post!
 }

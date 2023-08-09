@@ -3,23 +3,15 @@ import { readFileSync } from 'node:fs';
 import { createServer } from 'node:http'
 import { createSchema, createYoga, createPubSub } from 'graphql-yoga'
 import { PrismaClient } from '@prisma/client';
-// import db from './db';
-import { User } from './resolvers/user';
-import { Post } from './resolvers/post';
+
 import { Query } from './resolvers/query';
-import { Comment } from './resolvers/comment';
 import { Mutation } from './resolvers/mutation';
-import { Subscription } from './resolvers/subscription';
 
 const db = new PrismaClient();  
 
 const resolvers = {
     Query,
     Mutation,
-    User,
-    Post,
-    Comment,
-    Subscription
 }
 
 const pubSub = createPubSub();
