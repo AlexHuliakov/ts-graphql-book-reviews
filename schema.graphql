@@ -1,8 +1,3 @@
-type Query {
-  profile: User
-    users(query: String): [User!]!
-}
-
 input CreateUserInput {
     name: String!
     email: String!
@@ -12,29 +7,29 @@ input CreateUserInput {
 type User {
     id: ID!
     name: String!
-    email: String!
+    email: String
     reviews: [Review!]!
 }
 
 type Review {
-  id: Int!
-  text: String!
-  rating: Int!
-  author: User!
-  book: Book!
+    id: Int!
+    text: String!
+    rating: Int!
+    author: User!
+    book: Book!
 }
 
 type Book {
-  id: Int!
-  title: String!
-  author: String!
-  isbn: String!
-  reviews: [Review!]!
+    id: Int!
+    title: String!
+    author: String!
+    isbn: String!
+    reviews: [Review!]!
 }
 
 type loginResponse {
-  user: User!
-  token: String!
+    user: User!
+    token: String!
 }
 
 type Mutation {
@@ -42,4 +37,10 @@ type Mutation {
     login(email: String!, password: String!): loginResponse!
     createReview(text: String!, rating: Int!, bookId: Int!): Review!
     createBook(title: String!, author: String!, isbn: String!): Book!
+}
+
+type Query {
+    profile: User
+    users(query: String): [User!]!
+    books(query: String, skip: Int, take: Int): [Book!]!
 }

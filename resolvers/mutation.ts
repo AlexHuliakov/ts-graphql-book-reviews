@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { User } from "@prisma/client";
+import getUserId from '../util/get-user-id';
 
 export const Mutation = {
     async createUser(parent, { data }, { db }, info): Promise<User> {
@@ -42,7 +43,33 @@ export const Mutation = {
         
         return {
             user,
-            token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET)
+            token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
         };
-    }
+    },
+    createBook(parent, data, { db }, info) {
+        return db.book.create({
+            data
+        });
+    },
+    async createReview(parent, data, { db, req }, info) {
+        const userId = getUserId({ req });
+        
+        const book = await db.book.findUnique({
+            where: {
+                id: data.bookId
+            }
+        });
+        
+        if (!book) {
+            throw new Error('Book not found.');
+        }
+        
+        return db.review.create({
+            data: {
+                ...data,
+                book,
+                authorId: userId
+            }
+        });
+    },
 }

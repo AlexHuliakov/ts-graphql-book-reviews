@@ -9,12 +9,18 @@ import { PrismaClient } from '@prisma/client';
 
 import { Query } from './resolvers/query';
 import { Mutation } from './resolvers/mutation';
+import { User } from './resolvers/user';
+import { Book } from './resolvers/book';
+import { Review } from './resolvers/review';
 
 const db = new PrismaClient();  
 
 const resolvers = {
     Query,
     Mutation,
+    User,
+    Book,
+    Review
 }
 
 const pubSub = createPubSub();

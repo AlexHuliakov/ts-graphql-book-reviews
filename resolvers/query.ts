@@ -24,5 +24,21 @@ export const Query = {
             }
            }
         });
+    },
+    books(parent, { query, skip = 0, take = 10 }, { db }, info) {
+        if (!query) {
+            return db.book.findMany();
+        }
+
+        return db.book.findMany({
+           where: {
+            title: {
+                contains: query,
+                mode: 'insensitive' 
+            }
+           },
+           skip,
+           take
+        });
     }
 }
