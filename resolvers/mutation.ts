@@ -101,5 +101,61 @@ export const Mutation = {
 
         db.comments.push(comment);
         return comment;
+    },
+    updateUser(parent, args, { db }, info) {
+        const { id, data } = args;
+        const user = db.users.find((user) => {
+            return user.id === id;
+        });
+
+        if (!user) {
+            throw new Error('User not found.');
+        }
+
+        if (typeof data.email === 'string') {
+            const emailTaken = db.users.some((user) => {
+                return user.email === data.email;
+            });
+
+            if (emailTaken) {
+                throw new Error('Email taken.');
+            }
+
+            user.email = data.email;
+        }
+
+        if (typeof data.name === 'string') {
+            user.name = data.name;
+        }
+
+        if (typeof data.age !== 'undefined') {
+            user.age = data.age;
+        }
+
+        return user;
+    },
+    updatePost(parent, args, { db }, info) {
+        const { id, data } = args;
+        const post = db.posts.find((post) => {
+            return post.id === id;
+        });
+
+        if (!post) {
+            throw new Error('Post not found.');
+        }
+
+        if (typeof data.title === 'string') {
+            post.title = data.title;
+        }
+
+        if (typeof data.body === 'string') {
+            post.body = data.body;
+        }
+
+        if (typeof data.published === 'boolean') {
+            post.published = data.published;
+        }
+
+        return post;
     }
 }
