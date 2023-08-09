@@ -46,7 +46,9 @@ export const Mutation = {
             token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRE_TIME })
         };
     },
-    createBook(parent, data, { db }, info) {
+    createBook(parent, data, { db, req }, info) {
+        const userId = getUserId({ req });
+        
         return db.book.create({
             data
         });

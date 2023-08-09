@@ -154,7 +154,7 @@ mutation {
 }
 ```
 
-### `createBook`
+### `createBook` (protected)
 
 Create a new book.
 
@@ -169,7 +169,7 @@ mutation {
 }
 ```
 
-### `createReview`
+### `createReview` (protected)
 
 Create a new review for a book.
 
