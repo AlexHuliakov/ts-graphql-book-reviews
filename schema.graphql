@@ -70,3 +70,9 @@ type Mutation {
     updatePost(id: ID!, data: UpdatePostInput!): Post!
     createComment(data: CreateCommentInput): Comment!
 }
+
+type  Subscription {
+    count(from: Int!): Int!
+    comment(postId: ID!): Comment!
+    post: Post!
+}
