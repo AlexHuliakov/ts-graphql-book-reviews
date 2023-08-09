@@ -43,7 +43,7 @@ export const Mutation = {
         
         return {
             user,
-            token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
+            token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRE_TIME })
         };
     },
     createBook(parent, data, { db }, info) {
@@ -51,12 +51,12 @@ export const Mutation = {
             data
         });
     },
-    async createReview(parent, data, { db, req }, info) {
+    async createReview(parent, { text, rating, bookId }, { db, req }, info) {
         const userId = getUserId({ req });
         
         const book = await db.book.findUnique({
             where: {
-                id: data.bookId
+                id: bookId
             }
         });
         
@@ -66,9 +66,18 @@ export const Mutation = {
         
         return db.review.create({
             data: {
-                ...data,
-                book,
-                authorId: userId
+                text,
+                rating,
+                author: {
+                    connect: {
+                        id: userId
+                    }
+                },
+                book: {
+                    connect: {
+                        id: bookId
+                    }
+                }
             }
         });
     },

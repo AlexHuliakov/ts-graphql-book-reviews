@@ -9,7 +9,7 @@ export const Review = {
     author(parent, args, { db }, info) {
         return db.user.findUnique({
             where: {
-                id: parent.authorId
+                id: parent.userId
             }
         });
     }   
