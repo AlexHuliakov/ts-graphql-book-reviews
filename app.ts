@@ -34,6 +34,6 @@ const yoga = createYoga({
 
 const server = createServer(yoga);
 
-server.listen(process.env.APP_PORT, () => {
-    console.log(`Server is running on http://localhost:${process.env.APP_PORT}`)
+server.listen(process.env.PORT, () => {
+    console.log(`Server is running on http://localhost:${process.env.PORT}`)
 });

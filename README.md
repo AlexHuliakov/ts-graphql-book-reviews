@@ -22,7 +22,7 @@ docker-compose up -d
 ```
 DATABASE_URL="postgresql://admin:password@localhost:5432/posts"
 JWT_SECRET="secret"
-APP_PORT=4000
+PORT=4000
 TOKEN_EXPIRE_TIME="1d"
 ```
 
